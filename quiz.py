@@ -79,7 +79,7 @@ def run(self):
             choice = input("번호를 선택하세요: ").strip()
 
             if choice == '1':
-                print("\n[알림] 퀴즈 풀기 기능은 잠시 후 브랜치 실습에서 구현합니다!")
+                self.play_quiz()
             elif choice == '2':
                 print("\n[알림] 퀴즈 추가 기능을 준비 중입니다.")
             elif choice == '3':
@@ -117,3 +117,49 @@ def show_quiz_list(self):
 if __name__ == "__main__":
     game = QuizGame()
     game.run()
+
+
+def play_quiz(self):
+    """저장된 퀴즈를 풀고 결과를 출력합니다."""
+    if not self.quizzes:
+        print("\n⚠️ 풀 수 있는 퀴즈가 없습니다. 퀴즈를 먼저 추가해 주세요.")
+        return
+
+    print("\n--- 📝 퀴즈를 시작합니다! ---")
+    current_score = 0
+
+    for quiz in self.quizzes:
+        quiz.display()
+
+        while True:
+            user_input = input("정답 번호(1-4)를 입력하세요 (0: 중단): ").strip()
+
+            if user_input == '0':
+                print("퀴즈를 중단합니다.")
+                return
+
+            if not user_input.isdigit():
+                print("⚠️ 숫자만 입력 가능합니다. 다시 입력해 주세요.")
+                continue
+
+            choice_num = int(user_input)
+            if 1 <= choice_num <= 4:
+                if quiz.check_answer(choice_num):
+                    print("✅ 정답입니다!")
+                    current_score += 1
+                else:
+                    print(f"❌ 틀렸습니다. (정답: {quiz.answer})")
+                break
+            else:
+                print("⚠️ 1에서 4 사이의 번호를 입력해 주세요.")
+
+    print(f"\n=== 🏁 결과 발표 ===")
+    print(f"맞춘 개수: {current_score} / {len(self.quizzes)}")
+
+    # 최고 점수 갱신 로직
+    if current_score > self.best_score:
+        print(f"🎊 축하합니다! 최고 기록을 경신했습니다! ({self.best_score} -> {current_score})")
+        self.best_score = current_score
+        self.save_state()
+    else:
+        print(f"최고 기록: {self.best_score}")
