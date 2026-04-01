@@ -109,7 +109,7 @@ class QuizGame:
         print("\n--- 🎲 퀴즈를 시작합니다! (랜덤 순서) ---")
         current_score = 0
 
-        for quiz in self.quizzes:
+        for quiz in playable_quizzes:
             quiz.display()
 
             while True:
