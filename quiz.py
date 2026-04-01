@@ -19,6 +19,37 @@ class Quiz:
 
 
 class QuizGame:
+    def add_quiz(self):
+        """새로운 퀴즈를 생성하여 목록에 추가합니다."""
+        print("\n--- ➕ 새 퀴즈 추가 ---")
+
+        question = input("문제를 입력하세요: ").strip()
+        if not question:
+            print("⚠️ 문제는 비어 있을 수 없습니다.")
+            return
+
+        choices = []
+        for i in range(1, 5):
+            while True:
+                choice = input(f"선택지 {i}번을 입력하세요: ").strip()
+                if choice:
+                    choices.append(choice)
+                    break
+                print("⚠️ 선택지는 비어 있을 수 없습니다.")
+
+        while True:
+            answer_input = input("정답 번호(1-4)를 입력하세요: ").strip()
+            if answer_input.isdigit() and 1 <= int(answer_input) <= 4:
+                answer = int(answer_input)
+                break
+            print("⚠️ 1에서 4 사이의 숫자를 입력해 주세요.")
+
+        # 새로운 Quiz 객체 생성 및 리스트 추가
+        new_quiz = Quiz(question, choices, answer)
+        self.quizzes.append(new_quiz)
+        self.save_state()  # 파일에 바로 저장
+        print("✅ 퀴즈가 성공적으로 추가되었습니다!")
+
     def __init__(self):
         self.quizzes = []
         self.best_score = 0
@@ -134,7 +165,7 @@ class QuizGame:
                 if choice == '1':
                     self.play_quiz()
                 elif choice == '2':
-                    print("\n[알림] 퀴즈 추가 기능을 준비 중입니다.")
+                    self.add_quiz()
                 elif choice == '3':
                     self.show_quiz_list()
                 elif choice == '4':
