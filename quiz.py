@@ -64,3 +64,56 @@ class QuizGame:
         }
         with open(self.file_path, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
+
+def run(self):
+    """메뉴를 출력하고 사용자 입력을 받아 기능을 실행합니다."""
+    while True:
+        try:
+            print("\n=== 💡 계산 퀴즈 게임 ===")
+            print("1. 퀴즈 풀기")
+            print("2. 퀴즈 추가")
+            print("3. 퀴즈 목록 보기")
+            print("4. 최고 점수 확인")
+            print("5. 종료")
+
+            choice = input("번호를 선택하세요: ").strip()
+
+            if choice == '1':
+                print("\n[알림] 퀴즈 풀기 기능은 잠시 후 브랜치 실습에서 구현합니다!")
+            elif choice == '2':
+                print("\n[알림] 퀴즈 추가 기능을 준비 중입니다.")
+            elif choice == '3':
+                self.show_quiz_list()
+            elif choice == '4':
+                print(f"\n현재 최고 점수: {self.best_score}점")
+            elif choice == '5':
+                print("게임을 종료합니다. 다음에 또 만나요!")
+                self.save_state()
+                break
+            elif not choice:
+                print("⚠️ 입력이 비어 있습니다. 번호를 입력해 주세요.")
+            else:
+                print("⚠️ 잘못된 번호입니다. 1~5 사이의 숫자를 입력해 주세요.")
+
+        except KeyboardInterrupt:
+            print("\n\n[!] Ctrl+C 감지: 데이터를 안전하게 저장하고 종료합니다.")
+            self.save_state()
+            break
+        except EOFError:
+            print("\n\n[!] 입력 스트림 종료: 프로그램을 종료합니다.")
+            break
+
+def show_quiz_list(self):
+    """저장된 모든 퀴즈 목록을 출력합니다."""
+    if not self.quizzes:
+        print("\n등록된 퀴즈가 없습니다.")
+        return
+
+    print(f"\n--- 현재 등록된 퀴즈 목록 (총 {len(self.quizzes)}개) ---")
+    for i, q in enumerate(self.quizzes, 1):
+        print(f"{i}. {q.question}")
+
+# 프로그램 시작점
+if __name__ == "__main__":
+    game = QuizGame()
+    game.run()
