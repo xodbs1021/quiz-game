@@ -1,5 +1,6 @@
 import json
 import os
+import random
 
 class Quiz:
     def __init__(self, question, choices, answer):
@@ -98,10 +99,14 @@ class QuizGame:
     def play_quiz(self):
         """저장된 퀴즈를 풀고 결과를 출력합니다."""
         if not self.quizzes:
-            print("\n⚠️ 풀 수 있는 퀴즈가 없습니다. 퀴즈를 먼저 추가해 주세요.")
+            print("\n⚠️ 풀 수 있는 퀴즈가 없습니다.")
             return
 
-        print("\n--- 📝 퀴즈를 시작합니다! ---")
+        # 2. 퀴즈 목록 복사본을 만들어 랜덤하게 섞기 (원본 보존)
+        playable_quizzes = self.quizzes[:]
+        random.shuffle(playable_quizzes)
+
+        print("\n--- 🎲 퀴즈를 시작합니다! (랜덤 순서) ---")
         current_score = 0
 
         for quiz in self.quizzes:
